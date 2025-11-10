@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Lab 11 - Animaciones en Inputs</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin-top: 60px;
+  background: #e0f7fa;
+}
+
+form {
+  display: inline-block;
+  background: white;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+input {
+  padding: 12px;
+  width: 250px;
+  border: 2px solid gray;
+  border-radius: 8px;
+  transition: 0.4s;
+  font-size: 16px;
+}
+
+/* Efecto al enfocar */
+input:focus {
+  border-color: blue;
+  box-shadow: 0 0 15px lightblue;
+  transform: scale(1.05);
+  outline: none;
+}
+
+/* Cuando tiene texto */
+input:not(:placeholder-shown) {
+  border-color: green;
+  box-shadow: 0 0 10px lightgreen;
+}
+
+/* Botón animado */
+button {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 25px;
+  background: blue;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+button:hover {
+  background: darkblue;
+  transform: scale(1.05);
+}
+
+/* Animación al enviar */
+@keyframes enviado {
+  0% { transform: scale(1); box-shadow: 0 0 10px lightblue; }
+  50% { transform: scale(1.1); box-shadow: 0 0 20px lightgreen; }
+  100% { transform: scale(1); box-shadow: 0 0 0px transparent; }
+}
+
+/* Mensaje dinámico */
+#mensaje {
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #00796b;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+</style>
+</head>
+<body>
+<h2>Animaciones en Inputs</h2>
+<form id="formulario">
+  <input id="nombre" type="text" placeholder="Escribe tu nombre" required>
+  <button type="submit">Enviar</button>
+  <div id="mensaje"></div>
+</form>
+
+<script>
+const form = document.getElementById('formulario');
+const input = document.getElementById('nombre');
+const mensaje = document.getElementById('mensaje');
+
+// Mostrar el nombre mientras escribe
+input.addEventListener('input', () => {
+  if (input.value.trim() !== "") {
+    mensaje.style.opacity = "1";
+    mensaje.style.color = "#00796b";
+    mensaje.textContent = "Hola, " + input.value + " 👋";
+  } else {
+    mensaje.style.opacity = "0";
+  }
+});
+
+// Animación al enviar
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  input.style.animation = 'enviado 0.6s ease';
+  mensaje.style.color = "blue";
+  mensaje.textContent = "¡Tu nombre fue enviado correctamente, " + input.value + "!";
+  setTimeout(() => input.style.animation = '', 600);
+});
+</script>
+</body>
+</html>
